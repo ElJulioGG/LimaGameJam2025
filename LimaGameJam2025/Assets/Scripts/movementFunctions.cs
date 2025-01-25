@@ -17,8 +17,10 @@ public class movementFunctions : MonoBehaviour
     [SerializeField] private float worldGravity = -9.8f;
     [SerializeField] private bool isGrounded;
     [SerializeField, Range(0f, 20f)] private float jumpHeight;
-    [SerializeField] private float coyoteTime = 1.5f;
+    [SerializeField] private float coyoteTime = 0.3f;
     [SerializeField] private float coyoteTimeCounter;
+    [SerializeField] private float jumpBufferTime = 0.5f;
+    [SerializeField] private float jumpBufferCounter;
     [SerializeField] private bool canJump = false;
     private float targetJumpVelocity = 0.0f;
 
@@ -45,15 +47,27 @@ public class movementFunctions : MonoBehaviour
                 canJump = true;
             }
 
+            if (jumpBufferCounter > 0)
+            {
+                Jump();
+            }
+
         }
         else
         {
             coyoteTimeCounter -= Time.deltaTime;
 
+            jumpBufferCounter -= Time.deltaTime;
+
             if (coyoteTimeCounter < 0)
             {
                 coyoteTimeCounter = 0;
                 canJump = false;
+            }
+
+            if (jumpBufferCounter < 0)
+            {
+                jumpBufferCounter = 0;
             }
         }
     }
@@ -84,6 +98,8 @@ public class movementFunctions : MonoBehaviour
         }
         else
         {
+            jumpBufferCounter = jumpBufferTime;
+            
             if (coyoteTimeCounter > 0 && canJump)
             {
                 playerVelocity.y = targetJumpVelocity;
