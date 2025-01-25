@@ -32,5 +32,6 @@ public class inputManager : MonoBehaviour
     {
         onFoot.Disable();
     }
+    //I want to paint a black spot in my texture to black when I click it
 
 }
