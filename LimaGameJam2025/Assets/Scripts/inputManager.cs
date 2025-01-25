@@ -15,6 +15,7 @@ public class inputManager : MonoBehaviour
         playerInput = new PlayerInput();
         onFoot = playerInput.onFoot;
         movementFunctions = GetComponent<movementFunctions>();
+        onFoot.playerJump.performed += ctx => movementFunctions.Jump();
     }
 
     void Update()

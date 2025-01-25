@@ -15,6 +15,7 @@ public class movementFunctions : MonoBehaviour
     [Header ("Jump Parameters")]
     [SerializeField] private float worldGravity = -9.8f;
     [SerializeField] private bool isGrounded;
+    [SerializeField, Range(0f, 20f)] private float jumpHeight;
 
 
     void Start()
@@ -29,16 +30,26 @@ public class movementFunctions : MonoBehaviour
     }
 
     public void ProcessMove(Vector2 input)
-    {
+    {   
+        //Horizontal Movement
         Vector3 moveDir = input.x * _look.Right + input.y * _look.Forward;
         playerController.Move(moveDir * playerSpeed * Time.deltaTime);
 
+        //Progress gravity per frame
         playerVelocity.y += worldGravity * Time.deltaTime;
 
         if (isGrounded && playerVelocity.y < 0)
+            //gives an empty value to vel.y to nullify the effects of gravity
             playerVelocity.y = -2f;
 
         playerController.Move(playerVelocity * Time.deltaTime);
-        Debug.Log(playerVelocity.y);
+        //Debug.Log(playerVelocity.y);
+    }
+
+    public void Jump(){
+        if (isGrounded)
+        {
+            playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * worldGravity);
+        }
     }
 }
