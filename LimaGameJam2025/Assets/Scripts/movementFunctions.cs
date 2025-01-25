@@ -22,6 +22,7 @@ public class movementFunctions : MonoBehaviour
     [SerializeField] private float jumpBufferTime = 0.5f;
     [SerializeField] private float jumpBufferCounter;
     [SerializeField] private bool canJump = false;
+    [SerializeField] private float airTimeCounter = 0.0f;
     private float targetJumpVelocity = 0.0f;
 
     void Start()
@@ -38,6 +39,7 @@ public class movementFunctions : MonoBehaviour
         if (isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
+            airTimeCounter = 0;
 
             //Bandaid fix for the ghost double-jump bug
             if (playerVelocity.y > 0){
@@ -58,6 +60,15 @@ public class movementFunctions : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
 
             jumpBufferCounter -= Time.deltaTime;
+
+            if (playerVelocity.y < 0)
+            {   
+                airTimeCounter += Time.deltaTime;
+                if (airTimeCounter > 5)
+                {
+                    airTimeCounter = 5;
+                }
+            }
 
             if (coyoteTimeCounter < 0)
             {
