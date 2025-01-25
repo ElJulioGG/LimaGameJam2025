@@ -773,6 +773,7 @@ GameObject:
   - component: {fileID: 911590247}
   - component: {fileID: 911590252}
   - component: {fileID: 911590251}
+  - component: {fileID: 911590253}
   - component: {fileID: 911590250}
   m_Layer: 0
   m_Name: objTestPlayer
@@ -900,6 +901,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &911590253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911590245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0f043b8251c77948bd312f0dc7606d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 330585546}
 --- !u!1 &1197434025
 GameObject:
   m_ObjectHideFlags: 0

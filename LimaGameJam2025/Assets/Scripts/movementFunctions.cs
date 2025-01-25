@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class movementFunctions : MonoBehaviour
 {
+    private lookFunctions _look;
     private CharacterController playerController;
     private Vector3 playerVelocity;
     
@@ -18,6 +19,7 @@ public class movementFunctions : MonoBehaviour
 
     void Start()
     {
+        _look = GetComponent<lookFunctions>();
         playerController = GetComponent<CharacterController>();
     }
 
@@ -28,10 +30,8 @@ public class movementFunctions : MonoBehaviour
 
     public void ProcessMove(Vector2 input)
     {
-        Vector3 moveDir = Vector3.zero;
-        moveDir.x = input.x;
-        moveDir.z = input.y;
-        playerController.Move(transform.TransformDirection(moveDir) * playerSpeed * Time.deltaTime);
+        Vector3 moveDir = input.x * _look.Right + input.y * _look.Forward;
+        playerController.Move(moveDir * playerSpeed * Time.deltaTime);
 
         playerVelocity.y += worldGravity * Time.deltaTime;
 
