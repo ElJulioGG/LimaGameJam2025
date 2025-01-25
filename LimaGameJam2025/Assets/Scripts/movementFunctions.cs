@@ -10,7 +10,7 @@ public class movementFunctions : MonoBehaviour
     
 
     [Header ("Movement Parameters")]
-    [SerializeField, Range(0f, 20f)] private float playerSpeed;
+    [SerializeField, Range(0f, 20f)] public float playerSpeed;
     
     [Header ("Jump Parameters")]
     [SerializeField] private float worldGravity = -9.8f;
