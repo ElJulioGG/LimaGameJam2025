@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class movementFunctions : MonoBehaviour
 {
-    private lookFunctions _look;
+    
+    public lookFunctions _look;
     private CharacterController playerController;
     private Vector3 playerVelocity;
     
@@ -15,30 +16,96 @@ public class movementFunctions : MonoBehaviour
     [Header ("Jump Parameters")]
     [SerializeField] private float worldGravity = -9.8f;
     [SerializeField] private bool isGrounded;
-
+    [SerializeField, Range(0f, 20f)] private float jumpHeight;
+    [SerializeField] private float coyoteTime = 0.3f;
+    [SerializeField] private float coyoteTimeCounter;
+    [SerializeField] private float jumpBufferTime = 0.5f;
+    [SerializeField] private float jumpBufferCounter;
+    [SerializeField] private bool canJump = false;
+    private float targetJumpVelocity = 0.0f;
 
     void Start()
     {
         _look = GetComponent<lookFunctions>();
         playerController = GetComponent<CharacterController>();
+        targetJumpVelocity = Mathf.Sqrt(jumpHeight * -3.0f * worldGravity);
     }
 
     void Update()
     {
         isGrounded = playerController.isGrounded;
+
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+
+            //Bandaid fix for the ghost double-jump bug
+            if (playerVelocity.y > 0){
+                canJump = false;
+            }
+            else{
+                canJump = true;
+            }
+
+            if (jumpBufferCounter > 0)
+            {
+                Jump();
+            }
+
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+
+            jumpBufferCounter -= Time.deltaTime;
+
+            if (coyoteTimeCounter < 0)
+            {
+                coyoteTimeCounter = 0;
+                canJump = false;
+            }
+
+            if (jumpBufferCounter < 0)
+            {
+                jumpBufferCounter = 0;
+            }
+        }
     }
 
     public void ProcessMove(Vector2 input)
-    {
+    {   
+        //Horizontal Movement
         Vector3 moveDir = input.x * _look.Right + input.y * _look.Forward;
         playerController.Move(moveDir * playerSpeed * Time.deltaTime);
 
+        //Progress gravity per frame
         playerVelocity.y += worldGravity * Time.deltaTime;
 
         if (isGrounded && playerVelocity.y < 0)
+            //gives an empty value to vel.y to nullify the effects of gravity
             playerVelocity.y = -2f;
 
         playerController.Move(playerVelocity * Time.deltaTime);
-        Debug.Log(playerVelocity.y);
+        //Debug.Log(playerVelocity.y);
+    }
+
+    public void Jump(){
+        //Incomplete maybe, if any jump-related bugs arise, check this "if" conditional first
+        if (isGrounded)
+        {   
+            playerVelocity.y = targetJumpVelocity;
+            canJump = false;
+        }
+        else
+        {
+            jumpBufferCounter = jumpBufferTime;
+            
+            if (coyoteTimeCounter > 0 && canJump)
+            {
+                playerVelocity.y = targetJumpVelocity;
+                coyoteTimeCounter = 0;
+                canJump = false;
+            }
+        }
     }
 }
