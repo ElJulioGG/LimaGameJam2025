@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5287865974349768538}
   - component: {fileID: 3065579275324049529}
   - component: {fileID: 249096103803081813}
+  - component: {fileID: 5809910646199780050}
   m_Layer: 0
   m_Name: vrtCamera
   m_TagString: Untagged
@@ -89,6 +90,18 @@ MonoBehaviour:
   AutoEnableInputs: 1
   XYAxis: {fileID: -6436123361263134765, guid: 0b6167b688188314691977cf1bdda360, type: 3}
   ZAxis: {fileID: 0}
+--- !u!114 &5809910646199780050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890816752561863002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b4d6cbeb93674c4d9ebf0939dc0fe19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3405415223624826787
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camPlayer: {fileID: 462687846076456862}
   raycastDistance: 5
+  raycastHeightOffset: 0.5
   layerMask:
     serializedVersion: 2
     m_Bits: 192

@@ -18,6 +18,8 @@ public class CinemachineShake : MonoBehaviour
 
     public void ShakeCamera(float intesity, float time) 
     {
+        print("ShakeCameraTest");
+
         CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin =
             cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
@@ -36,7 +38,8 @@ public class CinemachineShake : MonoBehaviour
                 CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin =
                     cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
-                cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0f;
+                float shakeIntensity = Mathf.Lerp(cinemachineBasicMultiChannelPerlin.m_AmplitudeGain, 0f, Time.deltaTime * 2f); // Suaviza la intensidad
+                cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = shakeIntensity;
 
             }
         }
