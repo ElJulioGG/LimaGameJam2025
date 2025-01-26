@@ -7,6 +7,9 @@ using System.ComponentModel;
 
 public class GameManager : MonoBehaviour
 {
+
+    public int targetFPS = 60;
+
    
     public static GameManager instance;
     public int levelsCompleted = 0;
@@ -30,6 +33,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+
+        // Cap the FPS to the specified target
+        Application.targetFrameRate = targetFPS;
         if (instance == null)
         {
             instance = this;

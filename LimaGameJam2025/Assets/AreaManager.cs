@@ -5,7 +5,7 @@ public class AreaManager : MonoBehaviour
 {
     [SerializeField] private GameObject areaAWarn;
     [SerializeField] private GameObject areaAWarnText;
-    [SerializeField] private bool isInZone;
+    [SerializeField] private bool isInZone =false;
     [SerializeField] private float timer;
     [SerializeField] private bool warningActive;
 
