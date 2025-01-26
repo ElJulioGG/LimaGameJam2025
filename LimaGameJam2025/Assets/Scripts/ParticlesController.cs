@@ -18,9 +18,29 @@ public class ParticlesController : MonoBehaviour
     {
         part = GetComponent<ParticleSystem>();
         collisionEvents = new List<ParticleCollisionEvent>();
-        //var pr = part.GetComponent<ParticleSystemRenderer>();
-        //Color c = new Color(pr.material.color.r, pr.material.color.g, pr.material.color.b, .8f);
-        //paintColor = c;
+        part.Stop();
+
+    }
+
+    void Update()
+    {
+        // Check if the left mouse button is held down
+        if (Input.GetMouseButton(0))
+        {
+            // Start the particle system if it isn't already playing
+            if (!part.isPlaying)
+            {
+                part.Play();
+            }
+        }
+        else
+        {
+            // Stop the particle system if the mouse button is released
+            if (part.isPlaying)
+            {
+                part.Stop();
+            }
+        }
     }
 
     void OnParticleCollision(GameObject other)
@@ -35,12 +55,6 @@ public class ParticlesController : MonoBehaviour
                 Vector3 pos = collisionEvents[i].intersection;
                 float radius = Random.Range(minRadius, maxRadius);
                 PaintManager.instance.paint(p, pos, radius, hardness, strength, paintColor);
-                //print(p);
-                //print(pos);
-                //print(hardness);
-                //print(strength);
-                //print(paintColor);
-
             }
         }
     }

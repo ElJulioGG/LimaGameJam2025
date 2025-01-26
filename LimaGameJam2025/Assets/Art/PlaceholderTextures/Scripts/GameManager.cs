@@ -12,7 +12,12 @@ public class GameManager : MonoBehaviour
     public int levelsCompleted = 0;
     public int paintSize = 10;
 
-    public float combo = 0f;
+    public bool insideA;
+    public bool insideB;
+    public bool insideC;
+
+
+    public float score = 0f;
 
     public bool introHasPlayed = false;
     public bool reachEnding = false;
