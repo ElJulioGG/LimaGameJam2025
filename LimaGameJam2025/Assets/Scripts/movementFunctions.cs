@@ -35,7 +35,6 @@ public class movementFunctions : MonoBehaviour
     {
         _look = GetComponent<lookFunctions>();
         playerController = GetComponent<CharacterController>();
-        targetJumpVelocity = Mathf.Sqrt(targetJumpVelocity * -3.0f * worldGravity);
     }
 
     void Update()

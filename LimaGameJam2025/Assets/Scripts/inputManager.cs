@@ -16,6 +16,9 @@ public class inputManager : MonoBehaviour
         onFoot = playerInput.onFoot;
         movementFunctions = GetComponent<movementFunctions>();
         onFoot.playerJump.performed += ctx => movementFunctions.Jump();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
