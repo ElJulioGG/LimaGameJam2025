@@ -129,7 +129,7 @@ public class movementFunctions : MonoBehaviour
             }
         }
     }
-    private void acivateGroundCollider()
+    private void activateGroundCollider()
     {
         groundCol.SetActive(true);
     }
