@@ -46,6 +46,24 @@ public class movementFunctions : MonoBehaviour
         {
             coyoteTimeCounter = coyoteTime;
 
+            if (airTimeCounter > 0)
+            {
+
+                if (airTimeCounter < 1.75)
+                {
+                    AudioManager.instance.PlaySfx("land_soft");
+                }
+                else
+                {
+                    //screen shake de aterrizaje fuerte
+
+                    AudioManager.instance.PlaySfx("land_hard");
+                    AudioManager.instance.PlayBark("land_hard_voice");
+                    AudioManager.instance.PlaySfx("land_hard_emphasizer");
+                }
+                
+            }
+
             airTimeCounter = 0;
 
             //Bandaid fix for the ghost double-jump bug
@@ -61,8 +79,6 @@ public class movementFunctions : MonoBehaviour
                 Jump();
             }
 
-
-
         }
         else
         {
@@ -70,13 +86,10 @@ public class movementFunctions : MonoBehaviour
 
             jumpBufferCounter -= Time.deltaTime;
 
-            if (playerVelocity.y < 0)
-            {   
-                airTimeCounter += Time.deltaTime;
-                if (airTimeCounter > 5)
-                {
-                    airTimeCounter = 5;
-                }
+            airTimeCounter += Time.deltaTime;
+            if (airTimeCounter > 5)
+            {
+                airTimeCounter = 5;
             }
 
             if (coyoteTimeCounter < 0)
@@ -98,6 +111,25 @@ public class movementFunctions : MonoBehaviour
         Vector3 moveDir = input.x * _look.Right + input.y * _look.Forward;
         playerController.Move(moveDir * targetPlayerSpeed * Time.deltaTime);
 
+        //Movimiento
+        if (input.x != 0 || input.y != 0)
+        {   
+
+            //.. en TIERRA
+            if (isGrounded)
+            {
+                if (AudioManager.instance.FootStepsSource.isPlaying == false)
+                {
+                    AudioManager.instance.PlayFootSteps("run_clean");
+                }
+            }
+        }
+        //No movimiento
+        else
+        {
+            AudioManager.instance.FootStepsSource.Stop();
+        }
+
         //Progress gravity per frame
         playerVelocity.y += worldGravity * Time.deltaTime;
 
@@ -116,6 +148,10 @@ public class movementFunctions : MonoBehaviour
             //Invoke("activateGroundCollider", 0.2f);
             playerVelocity.y = targetJumpVelocity;
             canJump = false;
+
+            //int jumpSoundSelect = Random.Range(1, 4);
+            AudioManager.instance.PlayDoor("jump1");
+
         }
         else
         {
@@ -126,6 +162,9 @@ public class movementFunctions : MonoBehaviour
                 playerVelocity.y = targetJumpVelocity;
                 coyoteTimeCounter = 0;
                 canJump = false;
+
+                int jumpSoundSelect = Random.Range(1, 4);
+                AudioManager.instance.PlayDoor("jump" + jumpSoundSelect.ToString());
             }
         }
     }

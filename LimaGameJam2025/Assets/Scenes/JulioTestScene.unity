@@ -1228,7 +1228,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 125730102}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &125730104
 Camera:
   m_ObjectHideFlags: 0
@@ -3849,7 +3849,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6652,17 +6652,27 @@ MonoBehaviour:
   - name: MainThemeOG
     clip: {fileID: 8300000, guid: 2560068d3bce5c5438a53e33cd4974a3, type: 3}
   sfxSounds:
-  - name: Caida
+  - name: land_hard
+    clip: {fileID: 8300000, guid: 5c7f651fb062d034e8e118916efbec24, type: 3}
+  - name: land_soft
+    clip: {fileID: 8300000, guid: 5c7f651fb062d034e8e118916efbec24, type: 3}
+  - name: land_hard_emphasizer
     clip: {fileID: 8300000, guid: 4c8d6b6108edb754fa3a17c52a13ff70, type: 3}
   FootStepsSounds:
-  - name: FootstepSucio
-    clip: {fileID: 8300000, guid: 64a2fe0bb05ca884e8f3f51f4396d996, type: 3}
-  - name: FootstepNormal
+  - name: run_clean
     clip: {fileID: 8300000, guid: 9bfa1d3372494354eb2c07519bff93dd, type: 3}
+  - name: run_dirty
+    clip: {fileID: 8300000, guid: 64a2fe0bb05ca884e8f3f51f4396d996, type: 3}
   BarkSounds:
-  - name: Shoot
-    clip: {fileID: 8300000, guid: 6fbd384e3782c4642a03640c116343e5, type: 3}
-  DoorSounds: []
+  - name: land_hard_voice
+    clip: {fileID: 8300000, guid: 6d224662924a5504d8d76e2e67148951, type: 3}
+  DoorSounds:
+  - name: jump1
+    clip: {fileID: 8300000, guid: ea5371b56a52f8b4491e53704301e066, type: 3}
+  - name: jump2
+    clip: {fileID: 8300000, guid: 99664a4a82293df42ae97d10537e03fb, type: 3}
+  - name: jump3
+    clip: {fileID: 8300000, guid: 34f4f0e0972271e46aad072fc2ce7741, type: 3}
   UISounds: []
   musicSource: {fileID: 1980179627}
   sfxSource: {fileID: 1239796282}
@@ -11180,7 +11190,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -19484,6 +19494,11 @@ PrefabInstance:
         type: 3}
       propertyPath: near clip plane
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650140805272000487, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_AmplitudeGain
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
