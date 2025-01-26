@@ -37,11 +37,6 @@ public class movementFunctions : MonoBehaviour
         targetJumpVelocity = Mathf.Sqrt(jumpHeight * -3.0f * worldGravity);
     }
 
-    float GdMoveToward(float from, float to, float a)
-    {
-        return Mathf.Abs(to - from) <= a ? to : from + Mathf.Sign(to - from) * a;
-    }
-
     void Update()
     {
         isGrounded = playerController.isGrounded;
@@ -95,32 +90,27 @@ public class movementFunctions : MonoBehaviour
 
     public void ProcessMove(Vector2 input)
     {   
-        //Horizontal Movement
-
+        // Determine if the player is moving
         isMoving = input.x != 0 || input.y != 0;
+
+        // Compute the target velocity based on input direction
         Vector3 moveDir = input.x * _look.Right + input.y * _look.Forward;
+        Vector3 targetVelocity = isMoving ? moveDir.normalized * targetPlayerSpeed : Vector3.zero;
 
-        if (isMoving)
-        {
-            playerVelocity.x = GdMoveToward(playerVelocity.x, moveDir.x * targetPlayerSpeed, accelerationRate);
-            playerVelocity.z = GdMoveToward(playerVelocity.z, moveDir.z * targetPlayerSpeed, accelerationRate);
-        }
-        else
-        {
-            playerVelocity.x = GdMoveToward(playerVelocity.x, 0, decelerationRate);
-            playerVelocity.z = GdMoveToward(playerVelocity.z, 0, decelerationRate);
-        }
+        // Smoothly interpolate player velocity towards the target velocity
+        Vector3 horizontalVelocity = new Vector3(playerVelocity.x, 0, playerVelocity.z);
+        horizontalVelocity = Vector3.MoveTowards(horizontalVelocity, targetVelocity, accelerationRate * Time.deltaTime);
 
-
-        //Progress gravity per frame
+        // Update vertical velocity (gravity)
+        playerVelocity = new Vector3(horizontalVelocity.x, playerVelocity.y, horizontalVelocity.z);
         playerVelocity.y += worldGravity * Time.deltaTime;
 
+        // Reset vertical velocity if grounded
         if (isGrounded && playerVelocity.y < 0)
-            //gives an empty value to vel.y to nullify the effects of gravity
             playerVelocity.y = -2f;
 
+        // Move the player
         playerController.Move(playerVelocity * Time.deltaTime);
-        //Debug.Log(playerVelocity.y);
     }
 
     public void Jump(){
