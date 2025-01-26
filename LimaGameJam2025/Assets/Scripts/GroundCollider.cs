@@ -20,7 +20,7 @@ public class GroundCollider : MonoBehaviour
     {
         movementFunctions.hasLanded = true;
         gameObject.SetActive(false);
-        CinemachineShake.Instance.ShakeCamera(2f, 0.2f);
+
         print("hasLanded");
 
         if (other.CompareTag("Floor"))

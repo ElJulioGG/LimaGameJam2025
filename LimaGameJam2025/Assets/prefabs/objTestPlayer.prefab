@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5287865974349768538}
   - component: {fileID: 3065579275324049529}
   - component: {fileID: 249096103803081813}
-  - component: {fileID: 5809910646199780050}
   m_Layer: 0
   m_Name: vrtCamera
   m_TagString: Untagged
@@ -90,18 +89,6 @@ MonoBehaviour:
   AutoEnableInputs: 1
   XYAxis: {fileID: -6436123361263134765, guid: 0b6167b688188314691977cf1bdda360, type: 3}
   ZAxis: {fileID: 0}
---- !u!114 &5809910646199780050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1890816752561863002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b4d6cbeb93674c4d9ebf0939dc0fe19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2539178960693996701
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,8 +309,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6098260552792183799}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0891938, y: -0.197806, z: -0.94550055}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.3412402, y: -0.197806, z: 8.749586}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -667,7 +654,7 @@ GameObject:
   - component: {fileID: 8934211773918833309}
   - component: {fileID: 4269880176782395823}
   - component: {fileID: 9000480291582665633}
-  - component: {fileID: 5552066650796038796}
+  - component: {fileID: 7650140805272000487}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -777,7 +764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damping: 0
---- !u!114 &5552066650796038796
+--- !u!114 &7650140805272000487
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

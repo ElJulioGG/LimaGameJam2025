@@ -29,8 +29,6 @@ public class movementFunctions : MonoBehaviour
     [SerializeField] private bool canJump = false;
     [SerializeField] public bool hasLanded = false;
     [SerializeField] private float airTimeCounter = 0.0f;
-    [SerializeField] private float airTimeForceMult = 1.2f;
-    [SerializeField] private float shakeDuration = 1.2f;
 
     private float targetJumpVelocity = 0.0f;
 
@@ -39,19 +37,12 @@ public class movementFunctions : MonoBehaviour
         _look = GetComponent<lookFunctions>();
         playerController = GetComponent<CharacterController>();
         targetJumpVelocity = Mathf.Sqrt(jumpHeight * -3.0f * worldGravity);
-        groundCol.SetActive(false);
     }
 
     void Update()
     {
 
         isGrounded = playerController.isGrounded;
-
-        if (hasLanded)
-        {///ACA EDITA P CRISTIAN
-            CinemachineShake.Instance.ShakeCamera(airTimeCounter * airTimeForceMult, shakeDuration);
-        }
-        else { }
 
         if (isGrounded)
         {
