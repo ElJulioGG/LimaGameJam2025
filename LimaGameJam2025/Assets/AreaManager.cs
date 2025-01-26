@@ -1,130 +1,69 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AreaManager : MonoBehaviour
 {
     [SerializeField] private GameObject areaAWarn;
     [SerializeField] private GameObject areaAWarnText;
-    [SerializeField] private GameObject areaBWarn;
-    [SerializeField] private GameObject areaBWarnText;
-    [SerializeField] private GameObject areaCWarn;
-    [SerializeField] private GameObject areaCWarnText;
-    [SerializeField] private float areaTimeA = 0f;
-    [SerializeField] private float areaTimeB = 0f;
-    [SerializeField] private float areaTimeC = 0f;
-
-    private string activeWarning = ""; // Tracks which area's warning is active
+    [SerializeField] private bool isInZone;
+    [SerializeField] private float timer;
+    [SerializeField] private bool warningActive;
 
     void Start()
     {
-        ResetAll();
-    }
-
-    void Update()
-    {
-        // Check which area the player is currently in
-        if (GameManager.instance.insideA)
-        {
-            ResetAreaTimers(exclude: "A");
-        }
-        else if (GameManager.instance.insideB)
-        {
-            ResetAreaTimers(exclude: "B");
-        }
-        else if (GameManager.instance.insideC)
-        {
-            ResetAreaTimers(exclude: "C");
-        }
-
-        // Only allow one warning to be active at a time
-        if (activeWarning == "")
-        {
-            HandleArea("A", !GameManager.instance.insideA, ref areaTimeA, areaAWarn, areaAWarnText);
-            HandleArea("B", !GameManager.instance.insideB, ref areaTimeB, areaBWarn, areaBWarnText);
-            HandleArea("C", !GameManager.instance.insideC, ref areaTimeC, areaCWarn, areaCWarnText);
-        }
-        else
-        {
-            // Handle the currently active warning
-            if (activeWarning == "A") HandleActiveArea(ref areaTimeA, areaAWarn, areaAWarnText);
-            if (activeWarning == "B") HandleActiveArea(ref areaTimeB, areaBWarn, areaBWarnText);
-            if (activeWarning == "C") HandleActiveArea(ref areaTimeC, areaCWarn, areaCWarnText);
-        }
-    }
-
-    private void HandleArea(string areaName, bool isOutside, ref float areaTime, GameObject warnObject, GameObject warnText)
-    {
-        if (isOutside)
-        {
-            areaTime += Time.deltaTime;
-
-            if (areaTime >= 20f && areaTime < 30f)
-            {
-                activeWarning = areaName;
-                warnObject.SetActive(true);
-                warnText.SetActive(true);
-            }
-            else if (areaTime >= 30f)
-            {
-                PlayFunction(areaName); // Trigger the function
-                ResetAll();
-            }
-        }
-    }
-
-    private void HandleActiveArea(ref float areaTime, GameObject warnObject, GameObject warnText)
-    {
-        areaTime += Time.deltaTime;
-
-        if (areaTime >= 30f)
-        {
-            PlayFunction(activeWarning); // Trigger the function
-            ResetAll();
-        }
-    }
-
-    private void ResetAreaTimers(string exclude = "")
-    {
-        if (exclude != "A") ResetA();
-        if (exclude != "B") ResetB();
-        if (exclude != "C") ResetC();
-    }
-
-    private void ResetAll()
-    {
-        activeWarning = "";
-
-        ResetA();
-        ResetB();
-        ResetC();
-    }
-
-    private void ResetA()
-    {
-        areaTimeA = 0f;
+        isInZone = true; // Assume player starts in the zone
+        timer = 0f;
+        warningActive = false;
         areaAWarn.SetActive(false);
         areaAWarnText.SetActive(false);
     }
 
-    private void ResetB()
+    void Update()
     {
-        areaTimeB = 0f;
-        areaBWarn.SetActive(false);
-        areaBWarnText.SetActive(false);
+        if (!isInZone)
+        {
+            timer += Time.deltaTime;
+
+            // Display warnings after 10 seconds
+            if (timer >= 10f && !warningActive)
+            {
+                areaAWarn.SetActive(true);
+                areaAWarnText.SetActive(true);
+                warningActive = true;
+            }
+
+            // Lose condition after 20 seconds
+            if (timer >= 20f)
+            {
+                areaAWarn.SetActive(false);
+                areaAWarnText.SetActive(false);
+                warningActive = false;
+                Debug.Log("Lose");
+                timer = 0f; // Reset the timer
+            }
+        }
     }
 
-    private void ResetC()
+    private void OnTriggerStay(Collider other)
     {
-        areaTimeC = 0f;
-        areaCWarn.SetActive(false);
-        areaCWarnText.SetActive(false);
-    }
+        if (other.CompareTag("Player"))
+        {
+            print("inZone");
+            isInZone = true;
 
-    private void PlayFunction(string areaName)
+            // Reset everything when the player re-enters
+            areaAWarn.SetActive(false);
+            areaAWarnText.SetActive(false);
+            warningActive = false;
+            timer = 0f;
+        }
+    }
+   
+    private void OnTriggerExit(Collider other)
     {
-        Debug.Log($"Function triggered for Area {areaName}");
-        // Add your function logic here
+        if (other.CompareTag("Player"))
+        {
+            isInZone = false; // Player has exited the zone
+        }
     }
 }
-

@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public int levelsCompleted = 0;
     public int paintSize = 10;
 
+
+    public float playerTime = 260;
     public bool insideA;
     public bool insideB;
     public bool insideC;
