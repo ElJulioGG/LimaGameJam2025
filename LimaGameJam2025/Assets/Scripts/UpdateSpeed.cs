@@ -7,14 +7,10 @@ public class UpdateSpeed : MonoBehaviour
     [SerializeField] private movementFunctions movementScript;
     [SerializeField, Range(0f, 10f)] private float accelerationRate;
     [SerializeField, Range(0f, 10f)] private float decelerationRate;
+    [SerializeField, Range(0f, 10f)] private float decelerationThreshold;
 
     private float currentSpeed;
     private bool isMoving;
-
-    void Start()
-    {
-        currentSpeed = movementScript.playerSpeed;
-    }
 
     void Update()
     {
@@ -29,12 +25,20 @@ public class UpdateSpeed : MonoBehaviour
         // Disminuye la velocidad si no se está moviendo
         else
         {
-            currentSpeed -= decelerationRate * Time.deltaTime;
+            if (currentSpeed > decelerationThreshold)
+            {
+                currentSpeed -= (decelerationRate/2) * Time.deltaTime;
+            }
+            else
+            {
+                currentSpeed -= decelerationRate * Time.deltaTime;
+            }
+            
         }
 
         // Ajusta la velocidad para que no baje de 5
         currentSpeed = Mathf.Max(currentSpeed, 5f);
 
-        movementScript.playerSpeed = currentSpeed;
+        movementScript.currentPlayerSpeed = currentSpeed;
     }
 }

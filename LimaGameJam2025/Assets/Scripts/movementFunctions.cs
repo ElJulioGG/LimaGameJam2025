@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class movementFunctions : MonoBehaviour
 {
     
-    public lookFunctions _look;
+    private lookFunctions _look;
     private CharacterController playerController;
     private Vector3 playerVelocity;
     
 
     [Header ("Movement Parameters")]
-    [SerializeField, Range(0f, 20f)] public float playerSpeed;
-    
+    [SerializeField, Range(0f, 20f)] public float targetPlayerSpeed = 10.0f;
+    [SerializeField, Range(0f, 20f)] public float currentPlayerSpeed = 0.0f;
+    [SerializeField, Range(0f, 20f)] public float accelerationRate = 0.5f;
+    [SerializeField, Range(0f, 20f)] public float decelerationRate = 0.2f;
+    [SerializeField] public bool isMoving;
+
     [Header ("Jump Parameters")]
     [SerializeField] private float worldGravity = -9.8f;
     [SerializeField] private bool isGrounded;
@@ -30,6 +35,11 @@ public class movementFunctions : MonoBehaviour
         _look = GetComponent<lookFunctions>();
         playerController = GetComponent<CharacterController>();
         targetJumpVelocity = Mathf.Sqrt(jumpHeight * -3.0f * worldGravity);
+    }
+
+    float GdMoveToward(float from, float to, float a)
+    {
+        return Mathf.Abs(to - from) <= a ? to : from + Mathf.Sign(to - from) * a;
     }
 
     void Update()
@@ -86,8 +96,21 @@ public class movementFunctions : MonoBehaviour
     public void ProcessMove(Vector2 input)
     {   
         //Horizontal Movement
+
+        isMoving = input.x != 0 || input.y != 0;
         Vector3 moveDir = input.x * _look.Right + input.y * _look.Forward;
-        playerController.Move(moveDir * playerSpeed * Time.deltaTime);
+
+        if (isMoving)
+        {
+            playerVelocity.x = GdMoveToward(playerVelocity.x, moveDir.x * targetPlayerSpeed, accelerationRate);
+            playerVelocity.z = GdMoveToward(playerVelocity.z, moveDir.z * targetPlayerSpeed, accelerationRate);
+        }
+        else
+        {
+            playerVelocity.x = GdMoveToward(playerVelocity.x, 0, decelerationRate);
+            playerVelocity.z = GdMoveToward(playerVelocity.z, 0, decelerationRate);
+        }
+
 
         //Progress gravity per frame
         playerVelocity.y += worldGravity * Time.deltaTime;
