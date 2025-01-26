@@ -8,17 +8,7 @@ public class GroundCollider : MonoBehaviour
     [SerializeField] CameraShake2 camShake;
     [SerializeField] private float landAmplitude =0.5f;
     [SerializeField] private float landDuration = 0.1f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter(Collider other)
     {
         movementFunctions.hasLanded = true;
@@ -26,12 +16,13 @@ public class GroundCollider : MonoBehaviour
 
         print("hasLanded");
 
-        camShake.setShakeCam(landAmplitude, landDuration);
+        //camShake.setShakeCam(landAmplitude, landDuration);
+        AudioManager.instance.PlaySfx("Caida");
 
-        if (other.CompareTag("Floor"))
-        {
-            
-        }
+        //if (other.CompareTag("Floor"))
+        //{
+        //    
+        //}
     }
     //[SerializeField] private LayerMask floorLayer; // LayerMask for the floor
 
