@@ -143,7 +143,7 @@ public class PaintTexture : MonoBehaviour
 //        }
 //        dirtAmount = dirtAmountTotal;
 
-//        // Ensure paintCollider is set in the inspector
+//        Ensure paintCollider is set in the inspector
 //        if (paintCollider == null)
 //        {
 //            Debug.LogError("Paint collider is not assigned!");
@@ -156,7 +156,7 @@ public class PaintTexture : MonoBehaviour
 //        {
 //            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, float.MaxValue, 1 << paintCollider.gameObject.layer))
 //            {
-//                // Check if the hit collider is the one we're painting on
+//                Check if the hit collider is the one we're painting on
 //                if (hit.collider == paintCollider)
 //                {
 //                    Vector2 pixelUV = hit.textureCoord;
@@ -170,7 +170,7 @@ public class PaintTexture : MonoBehaviour
 //            }
 //        }
 
-//        // Check if it's time to update the texture
+//        Check if it's time to update the texture
 //        if (Time.time >= nextUpdateTime)
 //        {
 //            dirtMaskTexture.Apply();
@@ -204,7 +204,7 @@ public class PaintTexture : MonoBehaviour
 //            dirtMaskTexture.SetPixel(pixelPos.x, pixelPos.y,
 //                new Color(0, pixelDirtMask.g * pixelDirt.g, 0));
 
-//            // If you want to paint more than one pixel, you would need to expand this logic to consider the collider's shape
+//            If you want to paint more than one pixel, you would need to expand this logic to consider the collider's shape
 //        }
 //    }
 
