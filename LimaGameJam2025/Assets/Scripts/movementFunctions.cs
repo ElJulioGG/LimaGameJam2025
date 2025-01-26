@@ -49,6 +49,9 @@ public class movementFunctions : MonoBehaviour
         if (isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
+
+            CinemachineShake.Instance.ShakeCamera(airTimeCounter, 1f);
+
             airTimeCounter = 0;
 
             //Bandaid fix for the ghost double-jump bug
@@ -63,6 +66,8 @@ public class movementFunctions : MonoBehaviour
             {
                 Jump();
             }
+
+
 
         }
         else
