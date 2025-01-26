@@ -16,7 +16,8 @@ public class GroundCollider : MonoBehaviour
 
         print("hasLanded");
 
-        camShake.setShakeCam(landAmplitude, landDuration);
+        //camShake.setShakeCam(landAmplitude, landDuration);
+        AudioManager.instance.PlaySfx("Caida");
 
         //if (other.CompareTag("Floor"))
         //{
