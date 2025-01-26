@@ -13,7 +13,7 @@ public class movementFunctions : MonoBehaviour
 
     [Header ("Movement Parameters")]
     [SerializeField, Range(0f, 20f)] public float targetPlayerSpeed = 10.0f;
-    
+
     //[SerializeField, Range(0f, 20f)] public float currentPlayerSpeed = 0.0f;
     //[SerializeField, Range(0f, 20f)] public float accelerationRate = 0.5f;
     //[SerializeField, Range(0f, 20f)] public float decelerationRate = 0.2f;
@@ -35,7 +35,6 @@ public class movementFunctions : MonoBehaviour
     {
         _look = GetComponent<lookFunctions>();
         playerController = GetComponent<CharacterController>();
-        targetJumpVelocity = Mathf.Sqrt(targetJumpVelocity * -3.0f * worldGravity);
     }
 
     void Update()
@@ -114,7 +113,7 @@ public class movementFunctions : MonoBehaviour
         //Incomplete maybe, if any jump-related bugs arise, check this "if" conditional first
         if (isGrounded)
         {
-            Invoke("activateGroundCollider", 0.2f);
+            //Invoke("activateGroundCollider", 0.2f);
             playerVelocity.y = targetJumpVelocity;
             canJump = false;
         }
@@ -130,8 +129,8 @@ public class movementFunctions : MonoBehaviour
             }
         }
     }
-    private void acivateGroundCollider()
-    {
-        groundCol.SetActive(true);
-    }
+    //private void acivateGroundCollider()
+    //{
+    //    groundCol.SetActive(true);
+    //}
 }
