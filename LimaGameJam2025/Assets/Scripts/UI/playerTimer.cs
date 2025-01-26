@@ -23,14 +23,16 @@ public class playerTimer : MonoBehaviour
 
         _clock.Invoke(string.Format("{0:00}:{1:00}", minutes, seconds));
 
-        if (playerTime == 0)
+        if (playerTime < 0)
         {
             player.SetActive(false);
             canvas.SetActive(true);
-        if (minutes == 240) {
+            Cursor.visible = true;
+
+            Cursor.lockState = CursorLockMode.None;
+        }
+        if (minutes == 10) {
             canvasOver.gameObject.SetActive(true);
-
-
 
         }
 

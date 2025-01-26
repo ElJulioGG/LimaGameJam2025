@@ -7,7 +7,7 @@ public class ScoreManager : MonoBehaviour
     public TMP_Text multiplierText; // Reference to the TextMeshPro component for displaying the multiplier
     public movementFunctions movement; // Reference to your player controller script
 
-    private float score = 0; // Total score
+    public float score = 0; // Total score
     private float multiplier = 1; // Current multiplier
     private float pointsPerSecond = 1; // Base points earned per second
     private float holdPointsIncrement = 0; // Points increment while holding the mouse
@@ -74,6 +74,7 @@ public class ScoreManager : MonoBehaviour
 
     private void UpdateUI()
     {
+        print(score);
         scoreText.text = "000" + Mathf.FloorToInt(score).ToString();
         multiplierText.text = "x" + multiplier.ToString("F1");
     }
