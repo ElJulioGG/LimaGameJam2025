@@ -6,8 +6,8 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
-    public Sounds[] musicSounds, sfxSounds, FootStepsSounds, BarkSounds, DoorSounds, UISounds;
-    public AudioSource musicSource, sfxSource, FootStepsSource, BarkSource, DoorSource, UISource;
+    public Sounds[] musicSounds, sfxSounds, FootStepsSounds, BarkSounds, DoorSounds, UISounds, altMusicSounds;
+    public AudioSource musicSource, sfxSource, FootStepsSource, BarkSource, DoorSource, UISource, altMusicSource;
 
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class AudioManager : MonoBehaviour
     {
         //musica del menu
     }
-    public void PlayMusic(string name)
+    public void PlayMusic(string name, float start = 0.0f)
     {
         Sounds s = Array.Find(musicSounds, x => x.name == name);
         if (s == null)
@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
         else
         {
             musicSource.clip = s.clip;
+            musicSource.time = start;
             musicSource.Play();
         }
     }
@@ -100,6 +101,20 @@ public class AudioManager : MonoBehaviour
         {
             UISource.PlayOneShot(s.clip); //hay varios metodos para controlar audio
             //ver la documentacion de unity
+        }
+    }
+    public void PlayAltMusic(string name, float start = 0.0f)
+    {
+        Sounds s = Array.Find(altMusicSounds, x => x.name == name);
+        if (s == null)
+        {
+            Debug.Log("sound not found");
+        }
+        else
+        {
+            altMusicSource.clip = s.clip;
+            altMusicSource.time = start;
+            altMusicSource.Play();
         }
     }
 }

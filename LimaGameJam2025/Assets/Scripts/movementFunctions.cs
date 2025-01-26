@@ -123,6 +123,10 @@ public class movementFunctions : MonoBehaviour
                     AudioManager.instance.PlayFootSteps("run_clean");
                 }
             }
+            else
+            {
+                AudioManager.instance.FootStepsSource.Stop();
+            }
         }
         //No movimiento
         else
