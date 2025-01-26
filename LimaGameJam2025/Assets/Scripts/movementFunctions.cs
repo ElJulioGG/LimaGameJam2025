@@ -132,7 +132,7 @@ public class movementFunctions : MonoBehaviour
         //Incomplete maybe, if any jump-related bugs arise, check this "if" conditional first
         if (isGrounded)
         {
-            groundCol.SetActive(true);
+            Invoke("acivateGroundCollider", 0.2f);
             playerVelocity.y = targetJumpVelocity;
             canJump = false;
         }
@@ -151,5 +151,9 @@ public class movementFunctions : MonoBehaviour
    
     }
 
+    private void acivateGroundCollider()
+    {
+        groundCol.SetActive(true);
+    }
 
 }
