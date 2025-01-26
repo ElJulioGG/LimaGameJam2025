@@ -29,8 +29,6 @@ public class movementFunctions : MonoBehaviour
     [SerializeField] private bool canJump = false;
     [SerializeField] public bool hasLanded = false;
     [SerializeField] private float airTimeCounter = 0.0f;
-    [SerializeField] private float airTimeForceMult = 1.2f;
-    [SerializeField] private float shakeDuration = 1.2f;
 
     private float targetJumpVelocity = 0.0f;
 
@@ -39,19 +37,12 @@ public class movementFunctions : MonoBehaviour
         _look = GetComponent<lookFunctions>();
         playerController = GetComponent<CharacterController>();
         targetJumpVelocity = Mathf.Sqrt(jumpHeight * -3.0f * worldGravity);
-        groundCol.SetActive(false);
     }
 
     void Update()
     {
 
         isGrounded = playerController.isGrounded;
-
-        if (hasLanded)
-        {///ACA EDITA P CRISTIAN
-            CinemachineShake.Instance.ShakeCamera(airTimeCounter * airTimeForceMult, shakeDuration);
-        }
-        else { }
 
         if (isGrounded)
         {
@@ -105,27 +96,19 @@ public class movementFunctions : MonoBehaviour
 
     public void ProcessMove(Vector2 input)
     {   
-        // Determine if the player is moving
-        isMoving = input.x != 0 || input.y != 0;
-
-        // Compute the target velocity based on input direction
+        //Horizontal Movement
         Vector3 moveDir = input.x * _look.Right + input.y * _look.Forward;
-        Vector3 targetVelocity = isMoving ? moveDir.normalized * targetPlayerSpeed : Vector3.zero;
+        playerController.Move(moveDir * targetPlayerSpeed * Time.deltaTime);
 
-        // Smoothly interpolate player velocity towards the target velocity
-        Vector3 horizontalVelocity = new Vector3(playerVelocity.x, 0, playerVelocity.z);
-        horizontalVelocity = Vector3.MoveTowards(horizontalVelocity, targetVelocity, accelerationRate * Time.deltaTime);
-
-        // Update vertical velocity (gravity)
-        playerVelocity = new Vector3(horizontalVelocity.x, playerVelocity.y, horizontalVelocity.z);
+        //Progress gravity per frame
         playerVelocity.y += worldGravity * Time.deltaTime;
 
-        // Reset vertical velocity if grounded
         if (isGrounded && playerVelocity.y < 0)
+            //gives an empty value to vel.y to nullify the effects of gravity
             playerVelocity.y = -2f;
 
-        // Move the player
         playerController.Move(playerVelocity * Time.deltaTime);
+        //Debug.Log(playerVelocity.y);
     }
 
     public void Jump(){
