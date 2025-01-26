@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class GroundCollider : MonoBehaviour
 {
-    [SerializeField] movementFunctions movementFunctions; 
+    [SerializeField] movementFunctions movementFunctions;
+    [SerializeField] CameraShake2 camShake;
+    [SerializeField] private float landAmplitude =0.5f;
+    [SerializeField] private float landDuration = 0.1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +25,8 @@ public class GroundCollider : MonoBehaviour
         gameObject.SetActive(false);
         CinemachineShake.Instance.ShakeCamera(2f, 0.2f);
         print("hasLanded");
+
+        camShake.setShakeCam(landAmplitude, landDuration);
 
         if (other.CompareTag("Floor"))
         {

@@ -7,8 +7,12 @@ using System.ComponentModel;
 
 public class GameManager : MonoBehaviour
 {
+   
     public static GameManager instance;
     public int levelsCompleted = 0;
+    public int paintSize = 10;
+
+    public float combo = 0f;
 
     public bool introHasPlayed = false;
     public bool reachEnding = false;
@@ -32,7 +36,9 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        AudioManager.instance.PlayMusic("MainTheme");
+        AudioManager.instance.PlayMusic("MainThemeOG");
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
