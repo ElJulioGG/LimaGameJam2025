@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class movementFunctions : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     [SerializeField] private GameObject groundCol;
     private lookFunctions _look;
     private CharacterController playerController;
@@ -21,7 +22,7 @@ public class movementFunctions : MonoBehaviour
 
     [Header ("Jump Parameters")]
     [SerializeField] private float worldGravity = -9.8f;
-    [SerializeField] private bool isGrounded;
+    [SerializeField] public bool isGrounded;
     [SerializeField, Range(0f, 20f)] private float targetJumpVelocity = 6.0f;
     [SerializeField] private float coyoteTime = 0.3f;
     [SerializeField] private float coyoteTimeCounter;
@@ -113,8 +114,9 @@ public class movementFunctions : MonoBehaviour
 
         //Movimiento
         if (input.x != 0 || input.y != 0)
-        {   
-
+        {
+            animator.SetBool("Running", true);
+            print("Running");
             //.. en TIERRA
             if (isGrounded)
             {
@@ -131,6 +133,8 @@ public class movementFunctions : MonoBehaviour
         //No movimiento
         else
         {
+            animator.SetBool("Running", false);
+            print("NotRunnig");
             AudioManager.instance.FootStepsSource.Stop();
         }
 
