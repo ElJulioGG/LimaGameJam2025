@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class PaintTexture : MonoBehaviour
     [SerializeField] private Texture2D dirtMaskTextureBase;
     [SerializeField] private Texture2D dirtBrush;
     [SerializeField] private Material material;
-    [SerializeField] private int brushSize = 30; // Larger brush size
+    [SerializeField] private int brushSize2 = 20; // Larger brush size
     private Texture2D dirtMaskTexture;
     private bool isFlipped;
     private Animation solarAnimation;
@@ -18,6 +19,11 @@ public class PaintTexture : MonoBehaviour
     [SerializeField] private float paintRate = 0.1f; // Paint every 0.1 seconds
     [SerializeField] private float maxPaintDistance = 4f;
     [SerializeField] private LayerMask wallLayer; // Assign this in the Inspector
+
+    private Vector3 rayOrigin;
+    private Vector3 rayDirection;
+    private float maxDistanceRay = 10f; // Adjust this to set the maximum distance for raycast
+    private RaycastHit lastRaycastHit;
 
     private void Awake()
     {
@@ -44,128 +50,91 @@ public class PaintTexture : MonoBehaviour
         if (vCam == null)
         {
             Debug.LogError("vCam not found! Check if the name matches the GameObject in the scene.");
-
-
         }
     }
-
-        private void Update()
+    private void Update()
     {
         if (Input.GetMouseButton(0) && Time.time >= lastPaintTime + paintRate)
         {
-            // Raycast from the center of the screen, but now using the vCam's position
-            Vector3 rayOrigin = vCam.transform.position;
-            Vector3 rayDirection = vCam.transform.forward;
-            float maxDistanceRay = 10f; // Adjust this to set the maximum distance for raycast
-
-            // Perform the raycast with the wall layer mask
-            if (Physics.Raycast(rayOrigin, rayDirection, out RaycastHit raycastHit, maxDistanceRay, wallLayer))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit raycastHit))
             {
-                // Ensure the hit object has UV mapping
-                if (raycastHit.collider != null && raycastHit.collider.GetComponent<Renderer>() != null)
+                Vector2 textureCoord = raycastHit.textureCoord;
+
+                int pixelX = (int)(textureCoord.x * dirtMaskTexture.width);
+                int pixelY = (int)(textureCoord.y * dirtMaskTexture.height);
+
+                Vector2Int paintPixelPosition = new Vector2Int(pixelX, pixelY);
+
+                int paintPixelDistance = Mathf.Abs(paintPixelPosition.x - lastPaintPixelPosition.x) + Mathf.Abs(paintPixelPosition.y - lastPaintPixelPosition.y);
+                int maxPaintDistance = 7;
+                if (paintPixelDistance < maxPaintDistance)
                 {
-                    Vector2 textureCoord = raycastHit.textureCoord;
-
-                    // Ensure texture coordinates are valid
-                    if (textureCoord.x >= 0 && textureCoord.x <= 1 && textureCoord.y >= 0 && textureCoord.y <= 1)
-                    {
-                        int pixelX = (int)(textureCoord.x * dirtMaskTexture.width);
-                        int pixelY = (int)(textureCoord.y * dirtMaskTexture.height);
-
-                        Vector2Int paintPixelPosition = new Vector2Int(pixelX, pixelY);
-
-                        // Calculate paint distance
-                        int paintPixelDistance = Mathf.Abs(paintPixelPosition.x - lastPaintPixelPosition.x) +
-                                                 Mathf.Abs(paintPixelPosition.y - lastPaintPixelPosition.y);
-                        int maxPaintDistancePixel = 7;
-
-                        // Check distance from vCam to the hit point
-                        float distanceToCam = Vector3.Distance(raycastHit.point, vCam.transform.position);
-
-                        // Only paint if both distance conditions are met
-                        if (paintPixelDistance >= maxPaintDistancePixel && distanceToCam < this.maxPaintDistance)
-                        {
-                            lastPaintPixelPosition = paintPixelPosition;
-                            PaintBlack(pixelX, pixelY);
-                            lastPaintTime = Time.time; // Reset the timer
-                        }
-                    }
+                    return; // Painting too close to last position
                 }
+                lastPaintPixelPosition = paintPixelPosition;
+
+                PaintBlack(pixelX, pixelY);
+                lastPaintTime = Time.time; // Reset the timer
             }
         }
+
+        
     }
 
-
-
-
-        private void PaintBlack(int pixelX, int pixelY)
+    private void PaintBlack(int pixelX, int pixelY)
     {
-        int halfSize = brushSize / 2;
+        int halfSize = brushSize2 / 2;
 
-        for (int x = -halfSize; x < halfSize; x++)
+        for (int x = 0; x < brushSize2; x++)
         {
-            for (int y = -halfSize; y < halfSize; y++)
+            for (int y = 0; y < brushSize2; y++)
             {
-                int destX = pixelX + x;
-                int destY = pixelY + y;
+                // Calculate target texture coordinates
+                int destX = pixelX + x - halfSize;
+                int destY = pixelY + y - halfSize;
 
+                // Check bounds to avoid painting outside the mask texture
                 if (destX >= 0 && destX < dirtMaskTexture.width &&
                     destY >= 0 && destY < dirtMaskTexture.height)
                 {
-                    float brushU = (float)(x + halfSize) / brushSize;
-                    float brushV = (float)(y + halfSize) / brushSize;
-
+                    // Sample the brush texture at the current point
+                    float brushU = (float)x / brushSize2;
+                    float brushV = (float)y / brushSize2;
                     Color brushColor = dirtBrush.GetPixelBilinear(brushU, brushV);
-                    Color maskColor = dirtMaskTexture.GetPixel(destX, destY);
 
+                    // Skip if the brush pixel is fully transparent
+                    if (brushColor.a <= 0f) continue;
+
+                    // Blend the current dirt mask pixel with the brush color
+                    Color maskColor = dirtMaskTexture.GetPixel(destX, destY);
                     Color resultColor = Color.Lerp(maskColor, Color.black, brushColor.a);
+
+                    // Apply the result color to the mask texture
                     dirtMaskTexture.SetPixel(destX, destY, resultColor);
                 }
             }
         }
+
+        // Apply changes to the mask texture
         dirtMaskTexture.Apply();
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(rayOrigin, rayOrigin + rayDirection * maxDistanceRay);
+
+        if (lastRaycastHit.collider != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(lastRaycastHit.point, 0.1f);
+        }
     }
 }
 
-//private void Update()
-//{
-//    if (Input.GetMouseButton(0) && Time.time >= lastPaintTime + paintRate)
-//    {
-//        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit raycastHit))
-//        {
-//            Vector2 textureCoord = raycastHit.textureCoord;
 
-//            int pixelX = (int)(textureCoord.x * dirtMaskTexture.width);
-//            int pixelY = (int)(textureCoord.y * dirtMaskTexture.height);
 
-//            Vector2Int paintPixelPosition = new Vector2Int(pixelX, pixelY);
-
-//            int paintPixelDistance = Mathf.Abs(paintPixelPosition.x - lastPaintPixelPosition.x) + Mathf.Abs(paintPixelPosition.y - lastPaintPixelPosition.y);
-//            int maxPaintDistance = 7;
-//            if (paintPixelDistance < maxPaintDistance)
-//            {
-//                return; // Painting too close to last position
-//            }
-//            lastPaintPixelPosition = paintPixelPosition;
-
-//            PaintBlack(pixelX, pixelY);
-//            lastPaintTime = Time.time; // Reset the timer
-//        }
-//    }
-
-//    if (Input.GetKeyDown(KeyCode.Space))
-//    {
-//        isFlipped = !isFlipped;
-//        if (isFlipped)
-//        {
-//            solarAnimation.Play("SolarPanelFlip");
-//        }
-//        else
-//        {
-//            solarAnimation.Play("SolarPanelFlipBack");
-//        }
-//    }
-//}
 //use this aproach combined with the corrections, it updates the texture too slow
 //using System.Collections;
 //using System.Collections.Generic;
