@@ -1372,6 +1372,61 @@ PrefabInstance:
       propertyPath: m_Lens.FieldOfView
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_RecenterTarget
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_VerticalAxis.m_MaxSpeed
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_VerticalAxis.m_MaxValue
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_VerticalAxis.m_MinValue
+      value: -85
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_VerticalAxis.m_SpeedMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_HorizontalAxis.m_MaxSpeed
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_VerticalRecentering.m_WaitTime
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_HorizontalRecentering.m_enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_HorizontalRecentering.m_WaitTime
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_VerticalRecentering.m_RecenteringTime
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269880176782395823, guid: 12e6c03a455360d4e9ea7562980029a1,
+        type: 3}
+      propertyPath: m_HorizontalRecentering.m_RecenteringTime
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 5552066650796038796, guid: 12e6c03a455360d4e9ea7562980029a1,
         type: 3}
       propertyPath: m_NoiseProfile
