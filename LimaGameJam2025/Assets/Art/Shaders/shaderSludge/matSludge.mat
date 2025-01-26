@@ -53,12 +53,16 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _matMetallic: 0.4
+    - _matNormalSTR: 0.03
+    - _matSmoothness: 1.4
     - _vorOffset: 1
-    - _vorPower: 2
+    - _vorPower: 4.35
     - _vorScale: 5
     m_Colors:
-    - _baseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _vorColor: {r: 1, g: 1, b: 1, a: 1}
-    - _vorSpeed: {r: 0, g: 0.5, b: 0, a: 0}
-    - _vorTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _baseColor: {r: 0.1981132, g: 0.12103899, b: 0.036445357, a: 1}
+    - _matNomralSPD: {r: 0, g: 0.2, b: 0, a: 0}
+    - _vorColor: {r: 0.06603773, g: 0.04891179, b: 0.0028034872, a: 1}
+    - _vorSpeed: {r: 0, g: 0.1, b: 0, a: 0}
+    - _vorTiling: {r: 1.2, g: 0.6, b: 0, a: 0}
   m_BuildTextureStacks: []
