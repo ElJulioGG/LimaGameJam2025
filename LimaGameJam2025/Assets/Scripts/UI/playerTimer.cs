@@ -12,6 +12,8 @@ public class playerTimer : MonoBehaviour
     [SerializeField] private float playerTime;
     [SerializeField] private UnityEvent<string> _clock;
 
+    public GameObject canvasOver;
+
     // Update is called once per frame
     void Update()
     {
@@ -20,10 +22,16 @@ public class playerTimer : MonoBehaviour
         int seconds = (int)playerTime % 60;
 
         _clock.Invoke(string.Format("{0:00}:{1:00}", minutes, seconds));
+
         if (playerTime == 0)
         {
             player.SetActive(false);
             canvas.SetActive(true);
+        if (minutes == 240) {
+            canvasOver.gameObject.SetActive(true);
+
+
+
         }
 
     }
