@@ -16,7 +16,7 @@ public class PaintTexture : MonoBehaviour
     private Animation solarAnimation;
     private Vector2Int lastPaintPixelPosition;
     private float lastPaintTime; // Timer to control painting rate
-    [SerializeField] private float paintRate2 = 0.05f; // Paint every 0.1 seconds
+    [SerializeField] private float paintRate = 0.04f; // Paint every 0.1 seconds
     [SerializeField] private float maxPaintDistance = 4f;
     [SerializeField] private LayerMask wallLayer; // Assign this in the Inspector
 
@@ -54,7 +54,7 @@ public class PaintTexture : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButton(0) && Time.time >= lastPaintTime + paintRate2)
+        if (Input.GetMouseButton(0) && Time.time >= lastPaintTime + paintRate)
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit raycastHit))
             {
